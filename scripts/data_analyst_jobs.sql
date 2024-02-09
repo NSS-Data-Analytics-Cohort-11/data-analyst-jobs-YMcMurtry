@@ -71,10 +71,43 @@ WHERE location IN ('CA');
 
 -- 9.	Find the name of each company and its average star rating for all companies that have more than 5000 reviews across all locations. How many companies are there with more that 5000 reviews across all locations?
 
-SELECT DISTINCT(company), AVG(star_rating) AS avg_rating
+SELECT DISTINCT(company), location, review_count, AVG(star_rating) AS avg_rating
 FROM data_analyst_jobs
 WHERE review_count >5000
-GROUP BY company;
+GROUP BY company, location, review_count;
+
+-- Answer: 83
+
+-- 10.	Add the code to order the query in #9 from highest to lowest average star rating. Which company with more than 5000 reviews across all locations in the dataset has the highest star rating? What is that rating?
+
+SELECT DISTINCT(company), location, review_count, AVG(star_rating) AS avg_rating
+FROM data_analyst_jobs
+WHERE review_count >5000
+GROUP BY company, location, review_count
+ORDER BY avg_rating DESC;
+
+-- Answer: American Express with rating of 4.1999998090000000
+
+-- 11.	Find all the job titles that contain the word ‘Analyst’. How many different job titles are there? 
+
+SELECT DISTINCT *
+FROM data_analyst_jobs
+WHERE title LIKE '%Analyst%';
+
+-- Answer: 1636 job titles-1567 are unique titles
+
+
+-- 12.	How many different job titles do not contain either the word ‘Analyst’ or the word ‘Analytics’? What word do these positions have in common?
+
+SELECT DISTINCT *
+FROM data_analyst_jobs
+WHERE title NOT ILIKE '%analyst%'
+	AND title NOT ILIKE '%analytics%';
+	
+-- Answer: All 4 show Tableau
+	
+
+
 
 
 
