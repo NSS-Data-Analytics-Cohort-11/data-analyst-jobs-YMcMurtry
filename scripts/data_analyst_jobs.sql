@@ -107,15 +107,85 @@ WHERE title NOT ILIKE '%analyst%'
 -- Answer: All 4 show Tableau
 	
 
+-- BONUS: You want to understand which jobs requiring SQL are hard to fill. Find the number of jobs by industry (domain) that require SQL and have been posted longer than 3 weeks. 
+
+SELECT COUNT(domain)
+FROM data_analyst_jobs
+WHERE skill ILIKE '%sql%';
+
+SELECT *
+FROM data_analyst_jobs
+WHERE skill ILIKE '%sql%';
+
+-- Answer: 1090 jobs require SQL
+
+-- 	Disregard any postings where the domain is NULL. 
+
+SELECT *
+FROM data_analyst_jobs
+WHERE skill ILIKE '%sql%'
+	AND domain IS NOT null;
+	
+-- Answer: 707 total where domain is not 'null'
+
+-- 	- Order your results so that the domain with the greatest number of `hard to fill` jobs is at the top.
+
+SELECT *
+FROM data_analyst_jobs
+WHERE skill ILIKE '%sql%'
+	AND domain IS NOT null
+ORDER BY days_since_posting DESC;
+
+-- 	  - Which three industries are in the top 4 on this list? How many jobs have been listed for more than 3 weeks for each of the top 4?
+
+SELECT *
+FROM data_analyst_jobs
+WHERE skill ILIKE '%sql%'
+	AND domain IS NOT null
+ORDER BY days_since_posting DESC
+LIMIT 5;
+
+-- Answer: Government, Education and Schools, Consumer Goods and Services, Restaurants, Travel and Leisure
+
+-- 	How many jobs have been listed for more than 3 weeks for each of the top 4?
+
+SELECT title, days_since_posting, domain
+FROM data_analyst_jobs
+WHERE skill ILIKE '%sql%'
+	AND domain IS NOT null
+	AND domain ILIKE '%government%'
+GROUP BY title, days_since_posting, domain
+HAVING days_since_posting > 21
+ORDER BY days_since_posting DESC;
+
+SELECT title, days_since_posting, domain
+FROM data_analyst_jobs
+WHERE skill ILIKE '%sql%'
+	AND domain IS NOT null
+	AND domain ILIKE '%education%'
+GROUP BY title, days_since_posting, domain
+HAVING days_since_posting > 21
+ORDER BY days_since_posting DESC;
+
+SELECT title, days_since_posting, domain
+FROM data_analyst_jobs
+WHERE skill ILIKE '%sql%'
+	AND domain IS NOT null
+	AND domain ILIKE '%consumer%'
+GROUP BY title, days_since_posting, domain
+HAVING days_since_posting > 21
+ORDER BY days_since_posting DESC;
+
+SELECT title, days_since_posting, domain
+FROM data_analyst_jobs
+WHERE skill ILIKE '%sql%'
+	AND domain IS NOT null
+	AND domain ILIKE '%restaurant%'
+GROUP BY title, days_since_posting, domain
+HAVING days_since_posting > 21
+ORDER BY days_since_posting DESC;
 
 
-
-
-
-
-
-
-
-
+-- Answer: Government- 9, Education and Schools- 12, Consumer Goods and Services- 8, Restaurant Travel and Leisure- 8
 
 
